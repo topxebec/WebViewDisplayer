@@ -1,7 +1,8 @@
 # WebViewDisplayer
 Make it easier to give your webview global setting,either in activity or in fragment
 
-Set CacheMode,Js callback,Scrollbar property and other attibutes in WebViewDisplayer
+
+Set CacheMode,Js callback,Scrollbar status and other attibutes in WebViewDisplayer
 
 So just need use:
 
@@ -10,4 +11,4 @@ mWvDisplayer.setWebView(webview);
  mWvDisplayer.loadUrl(urlString);
  ```
 
-in your activity or fragment.
+in your activity or fragment for consistent performance.
