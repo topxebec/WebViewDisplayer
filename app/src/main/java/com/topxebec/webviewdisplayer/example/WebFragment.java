@@ -33,7 +33,7 @@ public class WebFragment extends Fragment {
 
         mWvDisplayer = new WebViewDisplayer(getActivity());
         mWvDisplayer.setWebView(mWebview);
-//        mWvDisplayer.setProgressBar(mProgressBar);
+        mWvDisplayer.setProgressBar(mProgressBar);
 
         mWvDisplayer.loadUrl("http://www.github.com");
 

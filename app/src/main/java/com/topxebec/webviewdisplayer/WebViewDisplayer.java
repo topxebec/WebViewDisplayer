@@ -3,11 +3,13 @@ package com.topxebec.webviewdisplayer;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 /**
@@ -17,6 +19,7 @@ public class WebViewDisplayer {
     WebView mWebView = null;
     ProgressBar mProgressBar = null;
     Context mContext;
+    View mErrorView;
 
     public WebViewDisplayer(Context mContext) {
         this.mContext = mContext;
@@ -53,6 +56,26 @@ public class WebViewDisplayer {
                 view.loadUrl(url);
                 return true;
             }
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                if (mErrorView == null) {
+                    mErrorView = View.inflate(mContext, R.layout.view_error, null);
+                    ViewGroup parent = (ViewGroup) mWebView.getParent();
+                    parent.addView(mErrorView);
+                    mErrorView.getLayoutParams().height = mWebView.getLayoutParams().height;
+                    mErrorView.getLayoutParams().width = mWebView.getLayoutParams().width;
+                }
+                mErrorView.setVisibility(View.VISIBLE);
+                Button button = (Button) mErrorView.findViewById(R.id.btn_reload);
+                button.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        mWebView.reload();
+                        mErrorView.setVisibility(View.GONE);
+                    }
+                });
+            }
         });
 
         mWebView.setWebChromeClient(new WebChromeClient() {
@@ -86,4 +109,5 @@ public class WebViewDisplayer {
     public void OpenSomeList(String id) {
         // respond to js callback here
     }
+
 }
